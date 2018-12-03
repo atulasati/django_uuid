@@ -19,16 +19,19 @@ def verify_ip(ip):
 def index(request):
     template = loader.get_template('app_uuid/index.html')
 
+    ip = ""
     uuid_ = ""
     error_message = ""
     if request.POST:
-    	if verify_ip(request.POST['ip'].strip()):
+    	ip = request.POST['ip'].strip()
+    	if verify_ip(ip):
     		uuid_ = uuid.uuid4() 
     	else:
     		error_message = 'Invalid entry.'
 
     context = {
         'uuid': uuid_,
-        'error_message':error_message
+        'error_message':error_message,
+        'ip':ip
     }
     return HttpResponse(template.render(context, request))
